@@ -1,0 +1,41 @@
+version: "3.8"
+services:
+  aws-fed-fe:
+    container_name: aws-fed-fe
+    image: public.ecr.aws/gkoulouris/aws-fed-fe
+    hostname: aws-fed-fe
+    networks:
+      aws-fed-ntwk:
+    volumes:
+      - './conf/:/etc/nginx/conf.d/'
+      - ${SSL_CERIFICATE_DIR}:/etc/nginx/certs/
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Athens
+      AZ_CLIENT_ID: ${AZ_AUTH_CLIENT_ID}
+      AZ_AUTHORITY: ${AZ_AUTH_TENANT_ID}
+    ports:
+      - "443:443"
+      - "80:80"
+  
+  aws-fed-be:
+    container_name: aws-fed-be
+    image: public.ecr.aws/gkoulouris/aws-fed-be
+    hostname: aws-fed-be
+    networks:
+      aws-fed-ntwk:
+    restart: unless-stopped
+    volumes:
+      - ${SAML_SIGN_CERIFICATE_DIR}:/home/node/app/certs
+    environment:
+      APP_ENV: docker
+      TZ: Europe/Athens
+      AZ_AUTH_CLIENT_ID: ${AZ_AUTH_CLIENT_ID}
+      AZ_AUTH_CLIENT_SECRET: ${AZ_AUTH_CLIENT_SECRET}
+      AZ_AUTH_TENANT_ID: ${AZ_AUTH_TENANT_ID}
+      SAML_ISSUER: ${SAML_ISSUER}
+      SAML_PROVIDER_NAME: ${SAML_PROVIDER_NAME}
+
+networks:
+  aws-fed-ntwk:
+    driver: bridge

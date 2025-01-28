@@ -1,0 +1,7 @@
+*.DS_Store
+.env
+.venv
+z_tools/
+z_notes.txt
+z_test_docker-compose.yml
+*/*/node_modules/

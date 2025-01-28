@@ -1,0 +1,63 @@
+import fs from "fs";
+import { SignedXml } from "xml-crypto";
+import { DOMParser, XMLSerializer } from "@xmldom/xmldom";
+import { getCertFile, getCertKeyFile } from "./getEnvVariables.mjs";
+
+export function signSamlResponse(samlResponseXml) {
+    // Load the private key and certificate
+    const certificate = fs.readFileSync(getCertFile(), "utf8");
+    const privateKey = fs.readFileSync(getCertKeyFile(), "utf8");
+
+    // Parse the SAML Response
+    const doc = new DOMParser().parseFromString(samlResponseXml, "application/xml");
+
+    // Locate the Response node
+    const responseNode = doc.documentElement;
+
+    // Locate the Issuer element
+    const issuerElement = responseNode.getElementsByTagName("saml2:Issuer")[0];
+    if (!issuerElement) {
+        throw new Error("Issuer element not found in the Response.");
+    }
+
+    // Create the SignedXml instance
+    const signature = new SignedXml({ privateKey: privateKey });
+
+    // Set private key and algorithms
+    signature.signingKey = privateKey;
+    signature.canonicalizationAlgorithm = "http://www.w3.org/2000/09/xmldsig#enveloped-signature";
+    signature.signatureAlgorithm = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
+
+    // Add reference to the <Response> element
+    signature.addReference({
+        xpath: "/*[local-name(.)='Response']",
+        digestAlgorithm: "http://www.w3.org/2001/04/xmlenc#sha256",
+        transforms: ["http://www.w3.org/2000/09/xmldsig#enveloped-signature", "http://www.w3.org/2001/10/xml-exc-c14n#"],
+    });
+
+    // Add KeyInfo with the certificate
+    signature.keyInfoProvider = {
+        getKeyInfo() {
+            return `<X509Data><X509Certificate>${certificate
+                .replace(/-----BEGIN CERTIFICATE-----|-----END CERTIFICATE-----|\n/g, "")
+                .trim()}</X509Certificate></X509Data>`;
+        },
+    };
+
+    // Compute the signature
+    signature.computeSignature(new XMLSerializer().serializeToString(responseNode));
+
+    // Get the computed signature element
+    const signedXml = signature.getSignedXml();
+    const signatureElement = new DOMParser()
+        .parseFromString(signedXml, "application/xml")
+        .getElementsByTagName("Signature")[0];
+
+    // Insert the <Signature> element immediately after the <Issuer> element
+    issuerElement.parentNode.insertBefore(signatureElement, issuerElement.nextSibling);
+
+    // Serialize the final signed SAML Response
+    const signedResponse = new XMLSerializer().serializeToString(responseNode);
+
+    return signedResponse;
+}
