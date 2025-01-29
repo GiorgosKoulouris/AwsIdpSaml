@@ -6,13 +6,13 @@ function generateUniqueID() {
 	return Math.random().toString(36).substring(2) + Date.now().toString(36);
 }
 
-export function constructSamlResponse(token, groupNames) {
+export async function constructSamlResponse(token, groupNames, appAccessToken) {
 	const userEmail = getUserEmail(token);
 	const samlIssuer = getSamlIssuer();
 	const confirmationRecipient = "https://signin.aws.amazon.com/saml";
 	const validityStartTime = new Date().toISOString().split('.')[0] + "Z";;
 
-	const signedAssertion = createSignedAssertion(userEmail, groupNames)
+	const signedAssertion = await createSignedAssertion(userEmail, groupNames, appAccessToken)
 	const samlResponse = `
 	<saml2p:Response
 			xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol"

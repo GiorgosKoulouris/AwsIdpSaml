@@ -7,13 +7,13 @@ function generateUniqueID() {
 	return Math.random().toString(36).substring(2) + Date.now().toString(36);
 }
 
-export function createSignedAssertion(userEmail, groupNames) {
-	const awsAttributes = getTransformedRoleString(groupNames)
+export async function createSignedAssertion(userEmail, groupNames, appAccessToken) {
+	const awsAttributes = await getTransformedRoleString(groupNames, appAccessToken)
 	const options = {
 		cert: fs.readFileSync(getCertFile()),
 		key: fs.readFileSync(getCertKeyFile()),
 		issuer: process.env.SAML_ISSUER,
-		lifetimeInSeconds: 600,
+		lifetimeInSeconds: 300,
 		audiences: 'urn:amazon:webservices',
 		attributes: {
 			'https://aws.amazon.com/SAML/Attributes/Role': awsAttributes,

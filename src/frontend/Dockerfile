@@ -20,7 +20,7 @@ RUN mkdir /etc/nginx/certs/
 EXPOSE 443
 
 LABEL maintainer="George Koulouris (gkoulouris@thecanopener.com)"
-LABEL version="1.0.0"
+LABEL version="1.0.1"
 LABEL project="AWS Federation"
 
 COPY ./entrypoint.sh .

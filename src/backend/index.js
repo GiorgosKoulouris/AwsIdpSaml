@@ -67,9 +67,9 @@ app.post("/getSamlAssertion", async (req, res) => {
         // Extract group names
         const groupNames = response.data.value
             .filter((group) => group["@odata.type"] === "#microsoft.graph.group")
-            .map((group) => group.displayName);
+            .map((group) =>[group.displayName, group.id]);
 
-        const samlAssertion = await constructSamlResponse(userAccessToken, groupNames)
+        const samlAssertion = await constructSamlResponse(userAccessToken, groupNames, appAccessToken)
         res.json({
             data: samlAssertion
         })
