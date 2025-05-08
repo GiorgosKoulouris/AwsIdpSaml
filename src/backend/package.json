@@ -1,6 +1,6 @@
 {
   "name": "aws-fed-be",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -11,17 +11,17 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "axios": "^1.7.9",
-    "body-parser": "^1.20.3",
+    "axios": "^1.9.0",
+    "body-parser": "^2.2.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "saml": "^3.0.1",
-    "xml-crypto": "^6.0.0",
+    "xml-crypto": "^6.1.2",
     "xml-encryption": "^3.1.0",
-    "xml-formatter": "^3.6.4",
+    "xml-formatter": "^3.6.5",
     "xml2js": "^0.6.2",
     "xmldom": "^0.6.0"
   }

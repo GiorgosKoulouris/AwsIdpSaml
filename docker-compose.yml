@@ -2,7 +2,7 @@ version: "3.8"
 services:
   aws-fed-fe:
     container_name: aws-fed-fe
-    image: public.ecr.aws/gkoulouris/aws-fed-fe:1.0.1
+    image: public.ecr.aws/gkoulouris/aws-fed-fe:1.0.2
     hostname: aws-fed-fe
     networks:
       aws-fed-ntwk:
@@ -20,7 +20,7 @@ services:
   
   aws-fed-be:
     container_name: aws-fed-be
-    image: public.ecr.aws/gkoulouris/aws-fed-be:1.0.1
+    image: public.ecr.aws/gkoulouris/aws-fed-be:1.0.2
     hostname: aws-fed-be
     networks:
       aws-fed-ntwk:

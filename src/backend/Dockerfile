@@ -1,4 +1,4 @@
-FROM node:21-alpine
+FROM node:22-alpine
 
 ENV NODE_UID=1000 \
     NODE_GID=1000
@@ -19,7 +19,7 @@ COPY --chown=node:node . .
 EXPOSE 5000
 
 LABEL maintainer="George Koulouris (gkoulouris@thecanopener.com)"
-LABEL version="1.0.1"
+LABEL version="1.0.2"
 LABEL project="AWS Federation"
 
 ENTRYPOINT ["./entrypoint.sh"]

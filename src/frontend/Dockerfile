@@ -1,4 +1,4 @@
-FROM node:21-alpine AS builder
+FROM node:22-alpine AS builder
 ENV NODE_ENV production
 
 WORKDIR /app
@@ -9,7 +9,7 @@ COPY . .
 
 RUN GENERATE_SOURCEMAP=false && npm run build
 
-FROM nginx:1.26.1-alpine as production
+FROM nginx:1.27.5-alpine as production
 ENV NODE_ENV production
 
 COPY --from=builder /app/build /usr/share/nginx/html
@@ -20,7 +20,7 @@ RUN mkdir /etc/nginx/certs/
 EXPOSE 443
 
 LABEL maintainer="George Koulouris (gkoulouris@thecanopener.com)"
-LABEL version="1.0.1"
+LABEL version="1.0.2"
 LABEL project="AWS Federation"
 
 COPY ./entrypoint.sh .
