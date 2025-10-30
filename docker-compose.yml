@@ -52,7 +52,7 @@ services:
         ipv4_address: 10.20.20.47
     restart: unless-stopped
     volumes:
-      - ${SAML_SIGN_CERIFICATE_DIR}:/home/node/app/certs
+      - ./certs/SAML/:/home/node/app/certs
       # - ./temp_be:/home/node/app
     environment:
       APP_ENV: docker
