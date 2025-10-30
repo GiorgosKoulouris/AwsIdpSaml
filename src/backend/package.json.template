@@ -1,6 +1,6 @@
 {
-  "name": "aws-fed-be",
-  "version": "1.0.1",
+  "name": "tcop-federation-app",
+  "version": "1.0.3",
   "main": "index.js",
   "type": "module",
   "scripts": {

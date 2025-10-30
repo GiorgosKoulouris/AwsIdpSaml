@@ -1,0 +1,24 @@
+log_format mformat '$remote_addr - [$time_local] "$request" $status $body_bytes_sent "$http_user_agent" "$gzip_ratio"';
+
+server {
+  listen 443 ssl;
+  http2 on;
+  ssl_certificate /etc/nginx/certs/domain.pem;
+  ssl_certificate_key /etc/nginx/certs/domain-key.pem;
+
+  location / {
+    root /usr/share/nginx/html/;
+    include /etc/nginx/mime.types;
+    try_files $uri $uri/ /index.html;
+    access_log  /var/log/nginx/frontend.log mformat;
+  }
+  location /getSamlAssertion {
+    proxy_pass http://federationapp:5000;
+    access_log  /var/log/nginx/backend.log mformat;
+  }
+}
+server {
+  listen 80;
+  return 301 https://$host$request_uri;
+  access_log  /var/log/nginx/redirect.log mformat;
+}

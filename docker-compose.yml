@@ -1,32 +1,59 @@
 version: "3.8"
 services:
-  aws-fed-fe:
-    container_name: aws-fed-fe
-    image: public.ecr.aws/gkoulouris/aws-fed-fe:1.0.2
-    hostname: aws-fed-fe
+  federationweb:
+    container_name: federationweb
+    image: tcop-federation-web:1.0.3
+    hostname: federationweb
+    deploy:
+      resources:
+        limits:
+          memory: 20m
+    dns:
+      - 10.20.20.23
     networks:
-      aws-fed-ntwk:
+      dockernet:
+        ipv4_address: 10.20.20.46
     volumes:
-      - './conf/:/etc/nginx/conf.d/'
-      - ${SSL_CERIFICATE_DIR}:/etc/nginx/certs/
+      - ./conf/:/etc/nginx/conf.d/
+    #   - ${SSL_CERIFICATE_DIR}:/etc/nginx/certs/
     restart: unless-stopped
+    labels:
+        - homepage.group=Management
+        - homepage.name=AWS Federation
+        - homepage.icon=https://icons.veryicon.com/png/o/miscellaneous/gcy_icofont/authentication-29.png
+        - homepage.href=https://federation.thecanopener.local/
+        - homepage.description=AWS Federation App
     environment:
       TZ: Europe/Athens
       AZ_CLIENT_ID: ${AZ_AUTH_CLIENT_ID}
       AZ_AUTHORITY: ${AZ_AUTH_TENANT_ID}
-    ports:
-      - "443:443"
-      - "80:80"
+    # ports:
+      # - "443:443"
+      # - "3000:80"
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: 10.20.20.45:24224
+        tag: docker.containers.federationweb
+        fluentd-async-connect: "true"
   
-  aws-fed-be:
-    container_name: aws-fed-be
-    image: public.ecr.aws/gkoulouris/aws-fed-be:1.0.2
-    hostname: aws-fed-be
+  federationapp:
+    container_name: federationapp
+    image: tcop-federation-app:1.0.3
+    hostname: federationapp
+    deploy:
+      resources:
+        limits:
+          memory: 50m
+    dns:
+      - 10.20.20.23
     networks:
-      aws-fed-ntwk:
+      dockernet:
+        ipv4_address: 10.20.20.47
     restart: unless-stopped
     volumes:
       - ${SAML_SIGN_CERIFICATE_DIR}:/home/node/app/certs
+      # - ./temp_be:/home/node/app
     environment:
       APP_ENV: docker
       TZ: Europe/Athens
@@ -35,7 +62,14 @@ services:
       AZ_AUTH_TENANT_ID: ${AZ_AUTH_TENANT_ID}
       SAML_ISSUER: ${SAML_ISSUER}
       SAML_PROVIDER_NAME: ${SAML_PROVIDER_NAME}
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: 10.20.20.45:24224
+        tag: docker.containers.federationapp
+        fluentd-async-connect: "true"
 
 networks:
-  aws-fed-ntwk:
-    driver: bridge
+  dockernet:
+    name: dockernet
+    external: true

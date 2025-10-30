@@ -9,8 +9,7 @@ COPY . .
 
 RUN GENERATE_SOURCEMAP=false && npm run build
 
-FROM nginx:1.27.5-alpine as production
-ENV NODE_ENV production
+FROM nginx:1.29.3-alpine as production
 
 COPY --from=builder /app/build /usr/share/nginx/html
 
@@ -20,8 +19,8 @@ RUN mkdir /etc/nginx/certs/
 EXPOSE 443
 
 LABEL maintainer="George Koulouris (gkoulouris@thecanopener.com)"
-LABEL version="1.0.2"
-LABEL project="AWS Federation"
+LABEL version="1.0.3"
+LABEL project="TCOP AWS Federation"
 
 COPY ./entrypoint.sh .
 

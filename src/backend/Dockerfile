@@ -19,7 +19,7 @@ COPY --chown=node:node . .
 EXPOSE 5000
 
 LABEL maintainer="George Koulouris (gkoulouris@thecanopener.com)"
-LABEL version="1.0.2"
-LABEL project="AWS Federation"
+LABEL version="1.0.3"
+LABEL project="TCOP AWS Federation"
 
 ENTRYPOINT ["./entrypoint.sh"]

@@ -1,12 +1,13 @@
 #!/bin/bash
 
-declare -a COMPONENT_NAMES=("aws-fed-be" "aws-fed-fe")
+declare -a COMPONENT_NAMES=("tcop-federation-app" "tcop-federation-web")
 declare -a COMPONENT_PATHS=("backend" "frontend")
 
 usage() {
     echo "Use this script to build the docker images with the proper naming and tags"
     echo
     echo "Options:"
+    echo "$0 --noECR        Do not upload images to ECR"
     echo "$0 --privateECR   Uploads the images to a private ECR"
     echo "$0 --publicECR    Uploads the images to public ECR"
     echo "$0 --both         Uploads the images to both private and public ECR"
@@ -18,6 +19,7 @@ usage() {
 
 UPLOAD_TO_ECR='false'
 UPLOAD_TO_PUBLIC_ECR='false'
+UPLOAD='true'
 BUILD='true'
 
 [ $# -eq 0 ] && {
@@ -34,6 +36,10 @@ for arg in "$@"; do
     -h)
         usage
         exit 0
+        ;;
+    --noECR)
+        shift
+        UPLOAD='false'
         ;;
     --privateECR)
         shift
@@ -58,9 +64,9 @@ for arg in "$@"; do
     esac
 done
 
-read -rp "App version (Default: 1.0.0): " VERSION
+read -rp "App version (Default: 1.0.3): " VERSION
 if [ "$VERSION" == "" ]; then
-    VERSION="1.0.0"
+    VERSION="1.0.3"
 fi
 
 if [ "$UPLOAD_TO_ECR" == 'true' ]; then
