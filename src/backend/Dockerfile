@@ -18,8 +18,9 @@ COPY --chown=node:node . .
 
 EXPOSE 5000
 
-LABEL maintainer="George Koulouris (gkoulouris@thecanopener.com)"
-LABEL version="1.0.3"
-LABEL project="TCOP AWS Federation"
+LABEL tcop.maintainer="George Koulouris (gkoulouris@thecanopener.com)"
+LABEL tcop.version="1.0.3"
+LABEL tcop.project="TCOP AWS Federation"
+LABEL tcop.organization="The Can Opener"
 
 ENTRYPOINT ["./entrypoint.sh"]
