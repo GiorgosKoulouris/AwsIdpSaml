@@ -18,9 +18,10 @@ RUN mkdir /etc/nginx/certs/
 
 EXPOSE 443
 
-LABEL maintainer="George Koulouris (gkoulouris@thecanopener.com)"
-LABEL version="1.0.3"
-LABEL project="TCOP AWS Federation"
+LABEL tcop.maintainer="George Koulouris (gkoulouris@thecanopener.com)"
+LABEL tcop.version="1.0.3"
+LABEL tcop.project="TCOP AWS Federation"
+LABEL tcop.organization="The Can Opener"
 
 COPY ./entrypoint.sh .
 

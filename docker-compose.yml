@@ -12,7 +12,7 @@ services:
       - 10.20.20.23
     networks:
       dockernet:
-        ipv4_address: 10.20.20.46
+        ipv4_address: 10.20.20.32
     volumes:
       - ./conf/:/etc/nginx/conf.d/
     #   - ${SSL_CERIFICATE_DIR}:/etc/nginx/certs/
@@ -49,7 +49,7 @@ services:
       - 10.20.20.23
     networks:
       dockernet:
-        ipv4_address: 10.20.20.47
+        ipv4_address: 10.20.20.33
     restart: unless-stopped
     volumes:
       - ./certs/SAML/:/home/node/app/certs

@@ -1,21 +1,21 @@
 .root-container {
-  background-color: rgb(1, 36, 68);
+  background-color: #231238;
   padding-top: 2%;
-  margin-top: 15%;
+  margin-top: 13%;
   display: inline-block;
   width: 30%;
-  height: 50%;
+  height: 25%;
   margin-left: 35%;
   justify-self: center;
   border-radius: 20px;
   justify-content: center;
-  filter: drop-shadow(3px 2px 5px #4fcaffa9);
+  filter: drop-shadow(3px 2px 5px #874fffa9);
 }
  
 .hero-text {
   margin-top: 1%;
   margin-bottom: 4%;
-  color: #ebf9fff5;
+  color: #ece3ff;
   padding: 0;
   align-self: center;
   justify-self: center;
@@ -24,20 +24,20 @@
 
 .login-button {
   background-color: #4fcaff1f;
-  border-color: #4fcaffa9;
+  border-color: #874fffa9;
   transition-duration: 0.3s;
-  color: #ebf9fff5;
+  color: #ece3ff;
   width: 30%;
   margin-left: 35%;
   padding: 8px;
   size: 24pt;
   border-radius: 4px;
   margin-bottom: 2%;
+  font-family: "Funnel Display", sans-serif;
 }
 
 .login-button:hover {
-  background-color: #4fcaffa9; /* Green */
-  color: rgb(2, 46, 59);
+  background-color: #874fffa9; /* Green */
 }
 
 .last-button {

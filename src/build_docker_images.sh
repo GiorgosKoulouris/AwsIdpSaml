@@ -117,7 +117,7 @@ for i in "${!COMPONENT_NAMES[@]}"; do
         cd "$MAIN_DIR/src/$DIRECTORY"
         BUILD_FAILED='false'
         docker build -t "$NAME:$VERSION" . &&
-            docker tag $NAME:$VERSION $NAME:latest ||
+            docker tag $NAME:$VERSION ||
             BUILD_FAILED='true'
     fi
 

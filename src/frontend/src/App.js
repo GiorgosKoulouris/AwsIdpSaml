@@ -55,7 +55,7 @@ function App() {
 
     return (
         <div className="root-container">
-            <h1 className="hero-text">TCOP AWS Federation</h1>
+            <h1 className="hero-text">TCOP Federation</h1>
             {accounts.length > 0 ? (
                 <div>
                     <button className="login-button" onClick={handleLogin}>View Accounts</button>
